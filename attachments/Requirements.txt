@@ -1,0 +1,16 @@
+
+
+Java Version {
+ Apache Tika -> http://tika.apache.org/download.html
+}
+
+PHP Version {
+ http://stackoverflow.com/questions/19503653/how-to-extract-text-from-word-file-doc-docx-xlsx-pptx-php
+}
+
+Programs {
+ Keyboard Express
+ AutoHotkey
+}
+
+

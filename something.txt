@@ -1,0 +1,16 @@
+<WEB SITE URL="http://localhost/" Wait="FALSE" Default_Browser="TRUE"/>
+<DELAY Flags="\x01" Time="2"/>
+
+<TAB><TAB><TAB>1<TAB>2<TAB>3<TAB>4<TAB><TAB>5
+
+<TAB>3<TAB>2<TAB>5<TAB>2<TAB>2<TAB>5
+<TAB>3<TAB>2<TAB>5<TAB>2<TAB>2<TAB>5
+<TAB>3<TAB>2<TAB>5<TAB>2<TAB>2<TAB>5
+<TAB>3<TAB>2<TAB>5<TAB>2<TAB>2<TAB>5
+
+<TAB>Acep
+<TAB>ACEP
+<TAB>Hardcore Programmer
+
+<TAB>Captcha
+<TAB>IDK
