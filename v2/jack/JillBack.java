@@ -12,22 +12,34 @@ import java.awt.event.KeyEvent;
 import java.awt.im.InputContext;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import java.util.ArrayList;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
 
 /**
  *
  * @author Acep / D.Tsogtbayar
  */
 public class JillBack {
-    
+
     private class CustomButton {
-        
+
         private String injection;
         private String value;
         private boolean pressed;
@@ -128,25 +140,10 @@ public class JillBack {
     private File res = new File("resource.xml");
 
     public JillBack() {
-//        try {
-//            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder db = dbf.newDocumentBuilder();
-//            if (!res.exists()) {
-//                res.createNewFile();
-//                try (BufferedWriter bw = new BufferedWriter(new FileWriter(res))) {
-//                    bw.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-//                    bw.append("<mram>");
-//                    bw.append("</mram>");
-//                    bw.flush();
-//                }
-//            }
-//            Document doc = db.parse(res);
-//            NodeList root = doc.getChildNodes().item(0).getChildNodes();
-//            
-//        } catch (ParserConfigurationException | SAXException | IOException ex) {
-//            ex.printStackTrace();
-//        }
-//        
+        HashMap<String, Object> map = readResource(res);
+        
+        
+        
         try {
             robot = new Robot();
 
@@ -161,7 +158,7 @@ public class JillBack {
             for (int a = 0; a < butTitles.length; a++) {
                 CustomButton btn = new CustomButton();
                 btn.setValue(butTitles[a]);
-                
+
                 btn.setAction(new ActionListener() {
 
                     @Override
@@ -169,7 +166,7 @@ public class JillBack {
                         switchingTab(btn.getInjection());
                     }
                 });
-                
+
                 buttons[a] = new JButton(butTitles[a]);
                 buttons[a].setHorizontalAlignment(JButton.CENTER);
                 buttons[a].setVerticalAlignment(JButton.CENTER);
@@ -342,7 +339,7 @@ public class JillBack {
                 switchingTab(str, false);
                 robot.delay(20);
                 doType(KeyEvent.VK_TAB);
-                
+
                 changeToMn();
                 switchingTab(str2, false);
                 robot.delay(20);
@@ -394,7 +391,7 @@ public class JillBack {
             return false;
         }
     }
-    
+
     private void switchingTab(String text, boolean switchTab) {
         if (!switchTab) {
             robot.delay(15);
@@ -702,18 +699,84 @@ public class JillBack {
             e.printStackTrace();
         }
     }
+
+    private HashMap<String, Object> readResource(File resourceFile) {
+        if (resourceFile.exists()) {
+            File f = resourceFile;
+            HashMap<String, Object> mapping = new HashMap<>();
+            try {
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                Document doc = db.parse(f);
+                Element root_e = (Element) doc.getChildNodes().item(0).getChildNodes();
+                NodeList profile, locate, solbiz;
+                profile = root_e.getElementsByTagName("profile").item(0).getChildNodes();
+                locate = root_e.getElementsByTagName("locate").item(0).getChildNodes();
+                solbiz = root_e.getElementsByTagName("solbiz").item(0).getChildNodes();
+                
+                XPathFactory xpf = XPathFactory.newInstance();
+                XPath xpath = xpf.newXPath();
+                XPathExpression exp;
+                
+                mapping.put("profile", getMaps(profile));
+                mapping.put("locate", getMaps(locate));
+                mapping.put("solbiz", getSolbizMaps(solbiz));
+                
+                return mapping;
+            } catch (SAXException | IOException | ParserConfigurationException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private HashMap<String, Object> getMaps(NodeList nodeList) {
+        HashMap<String, Object> map = new HashMap<>();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                String nodeName = node.getNodeName();
+                String text = node.getTextContent();
+                map.put(nodeName, text);
+            }
+        }
+        return map;
+    }
     
+    private HashMap<String, Object> getSolbizMaps(NodeList nodeList) {
+        HashMap<String, Object> map = new HashMap<>();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                String nodeName = node.getNodeName();
+                HashMap<String, String> rows = new HashMap<>();
+                NodeList rowsList = node.getChildNodes();
+                for (int j = 0; j < rowsList.getLength(); j++) {
+                    Node n = rowsList.item(j);
+                    if (n.getNodeType() == Node.ELEMENT_NODE) {
+                        String nName = n.getNodeName();
+                        String nText = n.getTextContent();
+                        rows.put(nName, nText);
+                    }
+                }
+                map.put(nodeName, rows);
+            }
+        }
+        return map;
+    }
+
     private boolean isItMn() {
         InputContext context = InputContext.getInstance();
         String lang = context.getLocale().toString();
         return lang.contains("mn_");
     }
+
     private boolean isItEn() {
         InputContext context = InputContext.getInstance();
         String lang = context.getLocale().toString();
         return lang.contains("en_");
     }
-    
+
     private void changeToMn() {
         if (isItEn()) {
             robot.keyPress(KeyEvent.VK_ALT);
@@ -723,6 +786,7 @@ public class JillBack {
             robot.keyRelease(KeyEvent.VK_ALT);
         }
     }
+
     private void changeToEn() {
         if (isItMn()) {
             robot.keyPress(KeyEvent.VK_ALT);

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions>
+	
+	<!-- Өргөдөл гаргагч-->
+	<profile>
+		<!-- Албан тушаал -->
+		<pos>Захирал</pos>
+		
+		<!-- Нэр -->
+		<fname>Бон Сун</fname>
+		
+		<!-- Овог -->
+		<lname>И</lname>
+	</profile>
+	
+	<!-- Өргөдөл гаргах талбайн мэдээлэл -->
+	<locate>
+		<!-- Аймаг хот -->
+		<pos_city>Өмнөговь</pos_city>
+		
+		<!-- Сум дүүрэг -->
+		<pos_district>Хүрмэн</pos_district>
+		
+		<!-- Планшетийн код -->
+		<pos_code>К-48-40</pos_code>
+		
+		<!-- Талбайн нэр -->
+		<name>Хүрмэн</name>
+		
+		<!-- Талбайн хэмжээ -->
+		<size>611.5</size>
+	</locate>
+	
+	<!-- Өргөдөл гаргах талбайн солбицлууд -->
+	<solbiz>
+		<!-- 1-р мөр -->
+		<row1>
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>103</grad><min>51</min><sec>50.39</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>42</grad><min>54</min><sec>31.25</sec>
+			</orgorog>
+		</row1>
+			
+		<!-- 2-р мөр -->
+		<row2>
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>103</grad><min>56</min><sec>1.11</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>42</grad><min>55</min><sec>40.81</sec>
+			</orgorog>
+		</row2>
+		
+		<!-- 3-р мөр -->
+		<row3>
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>103</grad><min>56</min><sec>1.11</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>42</grad><min>54</min><sec>31.25</sec>
+			</orgorog>
+		</row3>
+		
+	</solbiz>
+	
+</instructions>
