@@ -275,19 +275,35 @@ public class JillBack {
         }
         robot.delay(20);
     }
-    private void switchingTab(String text) {
-        doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
-        robot.delay(15);
-        char[] ch = text.toCharArray();
-        robot.setAutoDelay(0);
-        robot.delay(20);
-        for (char c : ch) {
-            type(c);
+    private boolean executeTabSwitch() {
+        try {
+            robot.keyPress(KeyEvent.VK_ALT);
+            robot.keyPress(KeyEvent.VK_TAB);
+            robot.delay(100);
+            robot.keyRelease(KeyEvent.VK_TAB);
+            robot.keyRelease(KeyEvent.VK_ALT);
+            return true;
+        } catch (Exception ex) {
+            return false;
         }
-        doType(KeyEvent.VK_TAB);
-        robot.delay(15);
-        doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
-        robot.delay(20);
+    }
+    private void switchingTab(String text) {
+//        doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
+        if (executeTabSwitch()) {
+            robot.delay(15);
+            char[] ch = text.toCharArray();
+            robot.setAutoDelay(0);
+            robot.delay(20);
+            for (char c : ch) {
+                type(c);
+            }
+            doType(KeyEvent.VK_TAB);
+            robot.delay(15);
+            doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
+            robot.delay(20);
+        } else {
+            switchingTab(text);
+        }
     }
     private void type(char character) {
         try {
