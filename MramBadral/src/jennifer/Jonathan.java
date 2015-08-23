@@ -490,34 +490,29 @@ public class Jonathan extends Application {
             
             Set<String> solbiz_keys = solbizMap.keySet();
             ObservableList<String> ob_sol_keys = FXCollections.observableArrayList();
+            
+            ObservableList<String> ob_sol_rows = FXCollections.observableArrayList();
+            ObservableList<String> ob_sol_hotkeys = FXCollections.observableArrayList();
+            
             solbiz_keys.stream().forEach((String key) -> {
-                ob_sol_keys.add(key);
+                if (key.length() == 4) {
+                    ob_sol_rows.add(key);
+                } else if (key.length() == 11) {
+                    ob_sol_hotkeys.add(key);
+                }
             });
-            ob_sol_keys.sort((String o1, String o2) -> {
+            ob_sol_rows.sort((String o1, String o2) -> {
                 return o1.compareTo(o2);
-//                if (o1.contains("hotkey") & o2.contains("hotkey")) {
-//                    
-//                }
-//                
-//                if (!o1.contains("hotkey") && !o2.contains("hotkey")) {
-//                    int k1 = Integer.parseInt(o1.substring(o1.lastIndexOf("w")+1, o1.indexOf("_hotkey")));
-//                    int k2 = Integer.parseInt(o2.substring(o2.lastIndexOf("w")+1, o2.indexOf("_hotkey")));
-//                    if (k1 > k2) {
-//                        return 1;
-//                    } else if (k1 < k2) {
-//                        return -1;
-//                    }
-//                } else {
-//                    int k1 = Integer.parseInt(o1.substring(o1.lastIndexOf("w")+1, o1.length()));
-//                    int k2 = Integer.parseInt(o2.substring(o2.lastIndexOf("w")+1, o2.length()));
-//                    if (k1 > k2) {
-//                        return 1;
-//                    } else if (k1 < k2) {
-//                        return -1;
-//                    }
-//                }
-//                return 0;
             });
+            ob_sol_hotkeys.sort((String o1, String o2) -> {
+                return o1.compareTo(o2);
+            });
+            ob_sol_keys = FXCollections.observableArrayList();
+            for (int i = 0; i < ob_sol_rows.size(); i++) {
+                ob_sol_keys.add(ob_sol_rows.get(i));
+                ob_sol_keys.add(ob_sol_hotkeys.get(i));
+            }
+            
             for (String key : ob_sol_keys) {
                 if (key.contains("_")) {
                     
