@@ -722,13 +722,13 @@ public class Jonathan extends Application {
     
     private boolean executeAltTab() {
         try {
-            robot.delay(5);
+            robot.delay(10);
             robot.keyPress(KeyEvent.VK_ALT);
             robot.keyPress(KeyEvent.VK_TAB);
             robot.delay(30);
             robot.keyRelease(KeyEvent.VK_TAB);
             robot.keyRelease(KeyEvent.VK_ALT);
-            robot.delay(5);
+            robot.delay(10);
             return true;
         } catch (Exception ex) {
             return false;
@@ -737,16 +737,16 @@ public class Jonathan extends Application {
 
     private void typeText(String text) {
         removeExistingText();
-        robot.delay(2);
+        robot.delay(10);
         char[] ch = text.toCharArray();
         for (char c : ch) {
             type(c);
         }
-        robot.delay(2);
+        robot.delay(10);
     }
     
     private void removeExistingText() {
-        robot.delay(5);
+        robot.delay(10);
         robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_A);
         robot.delay(20);
@@ -755,14 +755,14 @@ public class Jonathan extends Application {
         robot.delay(20);
         robot.keyPress(KeyEvent.VK_BACK_SPACE);
         robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-        robot.delay(5);
+        robot.delay(10);
     }
     
     private void executeTab() {
-        robot.delay(5);
+        robot.delay(20);
         robot.keyPress(KeyEvent.VK_TAB);
         robot.keyRelease(KeyEvent.VK_TAB);
-        robot.delay(5);
+        robot.delay(20);
     }
     
     private void changeToMn() {
@@ -782,13 +782,13 @@ public class Jonathan extends Application {
     }
     
     private void changeLang() {
-        robot.delay(5);
+        robot.delay(20);
         robot.keyPress(KeyEvent.VK_ALT);
         robot.keyPress(KeyEvent.VK_SHIFT);
         robot.delay(200);
         robot.keyRelease(KeyEvent.VK_ALT);
         robot.keyRelease(KeyEvent.VK_SHIFT);
-        robot.delay(5);
+        robot.delay(20);
     }
     
     public static void main(String[] args) {
