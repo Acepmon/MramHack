@@ -1154,6 +1154,9 @@ public class Jonathan extends Application {
                 case '.':
                     doType(java.awt.event.KeyEvent.VK_6);
                     break;
+                case ',':
+                    doType(KeyEvent.VK_8);
+                    break;
                 case ' ':
                     doType(java.awt.event.KeyEvent.VK_SPACE);
                     break;
