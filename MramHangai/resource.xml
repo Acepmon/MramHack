@@ -4,31 +4,31 @@
 	<!-- Өргөдөл гаргагч-->
 	<profile>
 		<!-- Албан тушаал -->
-		<pos hotkey="a">Захирал</pos>
+		<pos hotkey="a">Гүйцэтгэх Захирал</pos>
 		
 		<!-- Нэр -->
-		<fname hotkey="n">Батбаяр</fname>
+		<fname hotkey="n">Билгүүн</fname>
 		
 		<!-- Овог -->
-		<lname hotkey="o">Хишигдорж</lname>
+		<lname hotkey="o">Батцэрэн</lname>
 	</profile>
 	
 	<!-- Өргөдөл гаргах талбайн мэдээлэл -->
 	<locate>
 		<!-- Аймаг хот -->
-		<pos_city hotkey="h">Дорнод</pos_city>
+		<pos_city hotkey="h">Өмнөговь</pos_city>
 		
 		<!-- Сум дүүрэг -->
-		<pos_district hotkey="d">Баянуул</pos_district>
+		<pos_district hotkey="d">Ханбогд, Баян-Овоо</pos_district>
 		
 		<!-- Планшетийн код -->
-		<pos_code hotkey="c">М-49-118</pos_code>
+		<pos_code hotkey="c">К-48-33, К-48-34</pos_code>
 		
 		<!-- Талбайн нэр -->
-		<name hotkey="t">Ухаа овоот</name>
+		<name hotkey="t">Жаргалант</name>
 		
 		<!-- Талбайн хэмжээ -->
-		<size hotkey="y">2668</size>
+		<size hotkey="y">27479</size>
 	</locate>
 	
 	<!-- Өргөдөл гаргах талбайн солбицлууд -->
@@ -37,12 +37,12 @@
 		<row1 hotkey="1">
 			<!-- Уртраг -->
 			<urtrag>
-				<grad>112</grad><min>47</min><sec>15</sec>
+				<grad>106</grad><min>20</min><sec>5</sec>
 			</urtrag>
 			
 			<!-- Өргөрөг -->
 			<orgorog>
-				<grad>48</grad><min>55</min><sec>40</sec>
+				<grad>43</grad><min>20</min><sec>0</sec>
 			</orgorog>
 		</row1>
 			
@@ -50,12 +50,12 @@
 		<row2 hotkey="2">
 			<!-- Уртраг -->
 			<urtrag>
-				<grad>112</grad><min>49</min><sec>20</sec>
+				<grad>106</grad><min>35</min><sec>34</sec>
 			</urtrag>
 			
 			<!-- Өргөрөг -->
 			<orgorog>
-				<grad>48</grad><min>55</min><sec>40</sec>
+				<grad>43</grad><min>20</min><sec>0</sec>
 			</orgorog>
 		</row2>
 		
@@ -63,12 +63,12 @@
 		<row3 hotkey="3">
 			<!-- Уртраг -->
 			<urtrag>
-				<grad>112</grad><min>49</min><sec>20</sec>
+				<grad>106</grad><min>35</min><sec>34</sec>
 			</urtrag>
 			
 			<!-- Өргөрөг -->
 			<orgorog>
-				<grad>48</grad><min>54</min><sec>35</sec>
+				<grad>43</grad><min>10</min><sec>48</sec>
 			</orgorog>
 		</row3>
 		
@@ -76,12 +76,12 @@
 		<row4 hotkey="4">
 			<!-- Уртраг -->
 			<urtrag>
-				<grad>112</grad><min>48</min><sec>48</sec>
+				<grad>106</grad><min>31</min><sec>56.5</sec>
 			</urtrag>
 			
 			<!-- Өргөрөг -->
 			<orgorog>
-				<grad>48</grad><min>54</min><sec>35</sec>
+				<grad>43</grad><min>10</min><sec>48</sec>
 			</orgorog>
 		</row4>
 		
@@ -89,53 +89,14 @@
 		<row5 hotkey="5">
 			<!-- Уртраг -->
 			<urtrag>
-				<grad>112</grad><min>48</min><sec>48</sec>
+				<grad>106</grad><min>20</min><sec>5</sec>
 			</urtrag>
 			
 			<!-- Өргөрөг -->
 			<orgorog>
-				<grad>48</grad><min>54</min><sec>12</sec>
+				<grad>43</grad><min>16</min><sec>19.26</sec>
 			</orgorog>
 		</row5>
-		
-		<!-- 6-р мөр -->
-		<row6 hotkey="6">
-			<!-- Уртраг -->
-			<urtrag>
-				<grad>112</grad><min>49</min><sec>20</sec>
-			</urtrag>
-			
-			<!-- Өргөрөг -->
-			<orgorog>
-				<grad>48</grad><min>54</min><sec>12</sec>
-			</orgorog>
-		</row6>
-		
-		<!-- 7-р мөр -->
-		<row7 hotkey="7">
-			<!-- Уртраг -->
-			<urtrag>
-				<grad>112</grad><min>49</min><sec>20</sec>
-			</urtrag>
-			
-			<!-- Өргөрөг -->
-			<orgorog>
-				<grad>48</grad><min>50</min><sec>2</sec>
-			</orgorog>
-		</row7>
-		
-		<!-- 8-р мөр -->
-		<row8 hotkey="8">
-			<!-- Уртраг -->
-			<urtrag>
-				<grad>112</grad><min>47</min><sec>9</sec>
-			</urtrag>
-			
-			<!-- Өргөрөг -->
-			<orgorog>
-				<grad>48</grad><min>50</min><sec>2</sec>
-			</orgorog>
-		</row8>
 		
 	</solbiz>
 	
