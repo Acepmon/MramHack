@@ -7,70 +7,83 @@
 		<pos hotkey="a">Захирал</pos>
 		
 		<!-- Нэр -->
-		<fname hotkey="s">Бон Сун</fname>
+		<fname hotkey="d">Арилдий</fname>
 		
 		<!-- Овог -->
-		<lname hotkey="d">И</lname>
+		<lname hotkey="s">Баяраа</lname>
 	</profile>
 	
 	<!-- Өргөдөл гаргах талбайн мэдээлэл -->
 	<locate>
 		<!-- Аймаг хот -->
-		<pos_city hotkey="q">Өмнөговь</pos_city>
+		<pos_city hotkey="q">Сэлэнгэ</pos_city>
 		
 		<!-- Сум дүүрэг -->
-		<pos_district hotkey="w">Хүрмэн</pos_district>
+		<pos_district hotkey="w">Орхон</pos_district>
 		
 		<!-- Планшетийн код -->
-		<pos_code hotkey="e">К-48-40</pos_code>
+		<pos_code hotkey="e">M-48-116</pos_code>
 		
 		<!-- Талбайн нэр -->
-		<name hotkey="r">Хүрмэн</name>
+		<name hotkey="1">Хөтөл</name>
 		
 		<!-- Талбайн хэмжээ -->
-		<size hotkey="t">611.5</size>
+		<size hotkey="2">3273</size>
 	</locate>
 	
 	<!-- Өргөдөл гаргах талбайн солбицлууд -->
 	<solbiz>
 		<!-- 1-р мөр -->
-		<row1 hotkey="1">
+		<row1 hotkey="">
 			<!-- Уртраг -->
 			<urtrag>
-				<grad>103</grad><min>51</min><sec>50.39</sec>
+				<grad>105</grad><min>33</min><sec>15</sec>
 			</urtrag>
 			
 			<!-- Өргөрөг -->
 			<orgorog>
-				<grad>42</grad><min>54</min><sec>31.25</sec>
+				<grad>48</grad><min>56</min><sec>2</sec>
 			</orgorog>
 		</row1>
 			
 		<!-- 2-р мөр -->
-		<row2 hotkey="2">
+		<row2 hotkey="">
 			<!-- Уртраг -->
 			<urtrag>
-				<grad>103</grad><min>56</min><sec>1.11</sec>
+				<grad>105</grad><min>33</min><sec>15</sec>
 			</urtrag>
 			
 			<!-- Өргөрөг -->
 			<orgorog>
-				<grad>42</grad><min>55</min><sec>40.81</sec>
+				<grad>48</grad><min>59</min><sec>3</sec>
 			</orgorog>
 		</row2>
 		
 		<!-- 3-р мөр -->
-		<row3 hotkey="3">
+		<row3 hotkey="">
 			<!-- Уртраг -->
 			<urtrag>
-				<grad>103</grad><min>56</min><sec>1.11</sec>
+				<grad>105</grad><min>38</min><sec>3</sec>
 			</urtrag>
 			
 			<!-- Өргөрөг -->
 			<orgorog>
-				<grad>42</grad><min>54</min><sec>31.25</sec>
+				<grad>48</grad><min>59</min><sec>3</sec>
 			</orgorog>
 		</row3>
+		
+		<!-- 4-р мөр -->
+		<row4 hotkey="">
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>105</grad><min>38</min><sec>3</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>48</grad><min>56</min><sec>2</sec>
+			</orgorog>
+		</row4>
 		
 	</solbiz>
 	

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions>
+	
+	<!-- Өргөдөл гаргагч-->
+	<profile>
+		<!-- Албан тушаал -->
+		<pos hotkey="a">Гүйцэтгэх Захирал</pos>
+		
+		<!-- Нэр -->
+		<fname hotkey="n">Билгүүн</fname>
+		
+		<!-- Овог -->
+		<lname hotkey="o">Батцэрэн</lname>
+	</profile>
+	
+	<!-- Өргөдөл гаргах талбайн мэдээлэл -->
+	<locate>
+		<!-- Аймаг хот -->
+		<pos_city hotkey="h">Өмнөговь</pos_city>
+		
+		<!-- Сум дүүрэг -->
+		<pos_district hotkey="d">Ханбогд, Баян-Овоо</pos_district>
+		
+		<!-- Планшетийн код -->
+		<pos_code hotkey="c">К-48-33, К-48-34</pos_code>
+		
+		<!-- Талбайн нэр -->
+		<name hotkey="t">Жаргалант</name>
+		
+		<!-- Талбайн хэмжээ -->
+		<size hotkey="y">27479</size>
+	</locate>
+	
+	<!-- Өргөдөл гаргах талбайн солбицлууд -->
+	<solbiz>
+		<!-- 1-р мөр -->
+		<row1 hotkey="1">
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>106</grad><min>20</min><sec>5</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>43</grad><min>20</min><sec>0</sec>
+			</orgorog>
+		</row1>
+			
+		<!-- 2-р мөр -->
+		<row2 hotkey="2">
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>106</grad><min>35</min><sec>34</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>43</grad><min>20</min><sec>0</sec>
+			</orgorog>
+		</row2>
+		
+		<!-- 3-р мөр -->
+		<row3 hotkey="3">
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>106</grad><min>35</min><sec>34</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>43</grad><min>10</min><sec>48</sec>
+			</orgorog>
+		</row3>
+		
+		<!-- 4-р мөр -->
+		<row4 hotkey="4">
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>106</grad><min>31</min><sec>56.5</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>43</grad><min>10</min><sec>48</sec>
+			</orgorog>
+		</row4>
+		
+		<!-- 5-р мөр -->
+		<row5 hotkey="5">
+			<!-- Уртраг -->
+			<urtrag>
+				<grad>106</grad><min>20</min><sec>5</sec>
+			</urtrag>
+			
+			<!-- Өргөрөг -->
+			<orgorog>
+				<grad>43</grad><min>16</min><sec>19.26</sec>
+			</orgorog>
+		</row5>
+		
+	</solbiz>
+	
+</instructions>
