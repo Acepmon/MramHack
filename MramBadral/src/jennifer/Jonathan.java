@@ -8,8 +8,11 @@ import java.awt.event.KeyEvent;
 import java.awt.im.InputContext;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -204,10 +207,10 @@ public class Jonathan extends Application {
     private Font btnFont;
     
     // Resources
-    private HashMap<String, Object> resourceMap;
+    private TreeMap<String, Object> resourceMap;
     
     // Hotkeys
-    private ObservableList<HashMap<String, String>> hotkeys;
+    private ObservableList<TreeMap<String, String>> hotkeys;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -273,9 +276,14 @@ public class Jonathan extends Application {
         tab.setFont(btnFont);
         tab.setAlignment(Pos.CENTER_LEFT);
         tab.setOnAction((event) -> {
-            executeAltTab();
-            executeTab();
-            executeAltTab();
+            try {
+                executeAltTab();
+                Thread.sleep(100);
+                executeTab();    
+                Thread.sleep(100);
+                executeAltTab();
+            } catch (InterruptedException ex) {
+            }
         });
         tab.setOnMouseEntered((event) -> {
             tab.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
@@ -307,7 +315,7 @@ public class Jonathan extends Application {
         cdc.setOnAction((event) -> {
             readResource().forEach((String cdc_key, Object cdc_value) -> {
                 if (cdc_key.equals("locate")) {
-                    HashMap<String, Object> locate = (HashMap<String, Object>) cdc_value;
+                    TreeMap<String, Object> locate = (TreeMap<String, Object>) cdc_value;
                     executeAltTab();
                     typeText(locate.get("pos_city").toString());
                     executeTab();
@@ -341,16 +349,16 @@ public class Jonathan extends Application {
         solbizBtn.setOnAction((event) -> {
             readResource().forEach((String solbiz_key, Object solbiz_value) -> {
                 if (solbiz_key.equals("solbiz")) {
-                    HashMap<String, Object> solbiz_map = (HashMap<String, Object>) solbiz_value;
+                    TreeMap<String, Object> solbiz_map = (TreeMap<String, Object>) solbiz_value;
                     executeAltTab();
                     solbiz_map.forEach((String s_key, Object s_val) -> {
                         if (s_key.contains("hotkey")) {
                             
                         } else {
-                            HashMap<String, Object> solbiz = (HashMap<String, Object>) s_val;
+                            TreeMap<String, Object> solbiz = (TreeMap<String, Object>) s_val;
                     
-                            HashMap<String, String> col_urtrag = (HashMap<String, String>) solbiz.get("urtrag");
-                            HashMap<String, String> col_orgorog = (HashMap<String, String>) solbiz.get("orgorog");
+                            TreeMap<String, String> col_urtrag = (TreeMap<String, String>) solbiz.get("urtrag");
+                            TreeMap<String, String> col_orgorog = (TreeMap<String, String>) solbiz.get("orgorog");
                             
                             // Urtrag
                             typeText(col_urtrag.get("grad"));
@@ -386,17 +394,17 @@ public class Jonathan extends Application {
         File resource = new File("resource.xml");
         if (resource.exists()) {
             this.resourceMap = loadResource(resource);
-            HashMap<String, Object> map = readResource();
-            HashMap<String, Object> profileMap = (HashMap<String, Object>) map.get("profile");
-            HashMap<String, Object> locateMap = (HashMap<String, Object>) map.get("locate");
-            HashMap<String, Object> solbizMap = (HashMap<String, Object>) map.get("solbiz");
+            TreeMap<String, Object> map = readResource();
+            TreeMap<String, Object> profileMap = (TreeMap<String, Object>) map.get("profile");
+            TreeMap<String, Object> locateMap = (TreeMap<String, Object>) map.get("locate");
+            TreeMap<String, Object> solbizMap = (TreeMap<String, Object>) map.get("solbiz");
             GridRow gridrow = new GridRow(profileMap.get("pos").toString(), "Албан тушаал", profileMap.get("pos_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
             });
-            HashMap<String, String> hotkey = new HashMap<>();
+            TreeMap<String, String> hotkey = new TreeMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
             hotkeys.add(hotkey);
@@ -408,7 +416,7 @@ public class Jonathan extends Application {
                 executeTab();
                 executeAltTab();
             });
-            hotkey = new HashMap<>();
+            hotkey = new TreeMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
             hotkeys.add(hotkey);
@@ -420,7 +428,7 @@ public class Jonathan extends Application {
                 executeTab();
                 executeAltTab();
             });
-            hotkey = new HashMap<>();
+            hotkey = new TreeMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
             hotkeys.add(hotkey);
@@ -432,7 +440,7 @@ public class Jonathan extends Application {
                 executeTab();
                 executeAltTab();
             });
-            hotkey = new HashMap<>();
+            hotkey = new TreeMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
             hotkeys.add(hotkey);
@@ -444,7 +452,7 @@ public class Jonathan extends Application {
                 executeTab();
                 executeAltTab();
             });
-            hotkey = new HashMap<>();
+            hotkey = new TreeMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
             hotkeys.add(hotkey);
@@ -458,7 +466,7 @@ public class Jonathan extends Application {
                 executeTab();
                 executeAltTab();
             });
-            hotkey = new HashMap<>();
+            hotkey = new TreeMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
             hotkeys.add(hotkey);
@@ -470,7 +478,7 @@ public class Jonathan extends Application {
                 executeTab();
                 executeAltTab();
             });
-            hotkey = new HashMap<>();
+            hotkey = new TreeMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
             hotkeys.add(hotkey);
@@ -482,7 +490,7 @@ public class Jonathan extends Application {
                 executeTab();
                 executeAltTab();
             });
-            hotkey = new HashMap<>();
+            hotkey = new TreeMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
             hotkeys.add(hotkey);
@@ -517,11 +525,11 @@ public class Jonathan extends Application {
                 if (key.contains("_")) {
                     
                 } else {
-                HashMap<String, Object> row = (HashMap<String, Object>) solbizMap.get(key);
+                TreeMap<String, Object> row = (TreeMap<String, Object>) solbizMap.get(key);
                 int key_num = Integer.parseInt(key.substring(key.lastIndexOf("w")+1, key.length()));
                 
-                HashMap<String, String> urtrag = (HashMap<String, String>) row.get("urtrag");
-                HashMap<String, String> orgorog = (HashMap<String, String>) row.get("orgorog");
+                TreeMap<String, String> urtrag = (TreeMap<String, String>) row.get("urtrag");
+                TreeMap<String, String> orgorog = (TreeMap<String, String>) row.get("orgorog");
                 
                 String urtragField = urtrag.get("grad") + ", " + urtrag.get("min") + ", " + urtrag.get("sec");
                 String orgorogField = orgorog.get("grad") + ", " + orgorog.get("min") + ", " + orgorog.get("sec");
@@ -532,10 +540,10 @@ public class Jonathan extends Application {
                 gridrow.setButtonText("Солбиз Мөр "+key_num);
                 gridrow.setHotkey(solbizMap.get(key+"_hotkey").toString());
                 gridrow.setAction((Object specialValue, ActionEvent event) -> {
-                    HashMap<String, Object> solbiz = (HashMap<String, Object>) specialValue;
+                    TreeMap<String, Object> solbiz = (TreeMap<String, Object>) specialValue;
                     
-                    HashMap<String, String> col_urtrag = (HashMap<String, String>) solbiz.get("urtrag");
-                    HashMap<String, String> col_orgorog = (HashMap<String, String>) solbiz.get("orgorog");
+                    TreeMap<String, String> col_urtrag = (TreeMap<String, String>) solbiz.get("urtrag");
+                    TreeMap<String, String> col_orgorog = (TreeMap<String, String>) solbiz.get("orgorog");
                     
                     executeAltTab();
                     // Urtrag
@@ -555,7 +563,7 @@ public class Jonathan extends Application {
                     executeTab();
                     executeAltTab();
                 });
-                hotkey = new HashMap<>();
+                hotkey = new TreeMap<>();
                 hotkey.put("hotkey", gridrow.getHotkey());
                 hotkey.put("hashCode", ""+gridrow.hashCode());
                 hotkeys.add(hotkey);
@@ -629,7 +637,7 @@ public class Jonathan extends Application {
     private void hotkeyConfiguration() {
         this.readResource().forEach((String key, Object value) -> {
             if (key.equals("solbiz")) {
-                HashMap<String, Object> profile = (HashMap<String, Object>) value;
+                TreeMap<String, Object> profile = (TreeMap<String, Object>) value;
                 System.out.println(profile);
                 Set<String> profile_keys = profile.keySet();
                 for (Object k_obj : profile_keys.toArray()) {
@@ -655,7 +663,7 @@ public class Jonathan extends Application {
             } else if (event.getCode().equals(KeyCode.F3)) {
                 readResource().forEach((String cdc_key, Object cdc_value) -> {
                     if (cdc_key.equals("locate")) {
-                        HashMap<String, Object> locate = (HashMap<String, Object>) cdc_value;
+                        TreeMap<String, Object> locate = (TreeMap<String, Object>) cdc_value;
                         executeAltTab();
                         typeText(locate.get("pos_city").toString());
                         executeTab();
@@ -671,16 +679,16 @@ public class Jonathan extends Application {
             } else if (event.getCode().equals(KeyCode.DIGIT3)) {
                 readResource().forEach((String solbiz_key, Object solbiz_value) -> {
                 if (solbiz_key.equals("solbiz")) {
-                    HashMap<String, Object> solbiz_map = (HashMap<String, Object>) solbiz_value;
+                    TreeMap<String, Object> solbiz_map = (TreeMap<String, Object>) solbiz_value;
                     executeAltTab();
                     solbiz_map.forEach((String s_key, Object s_val) -> {
                         if (s_key.contains("hotkey")) {
                             
                         } else {
-                            HashMap<String, Object> solbiz = (HashMap<String, Object>) s_val;
+                            TreeMap<String, Object> solbiz = (TreeMap<String, Object>) s_val;
                     
-                            HashMap<String, String> col_urtrag = (HashMap<String, String>) solbiz.get("urtrag");
-                            HashMap<String, String> col_orgorog = (HashMap<String, String>) solbiz.get("orgorog");
+                            TreeMap<String, String> col_urtrag = (TreeMap<String, String>) solbiz.get("urtrag");
+                            TreeMap<String, String> col_orgorog = (TreeMap<String, String>) solbiz.get("orgorog");
                             
                             // Urtrag
                             typeText(col_urtrag.get("grad"));
@@ -726,9 +734,9 @@ public class Jonathan extends Application {
             robot.delay(10);
             robot.keyPress(KeyEvent.VK_ALT);
             robot.keyPress(KeyEvent.VK_TAB);
-            robot.delay(25);
-            robot.keyRelease(KeyEvent.VK_TAB);
+            robot.delay(50);
             robot.keyRelease(KeyEvent.VK_ALT);
+            robot.keyRelease(KeyEvent.VK_TAB);
             robot.delay(10);
             return true;
         } catch (Exception ex) {
@@ -747,23 +755,23 @@ public class Jonathan extends Application {
     }
     
     private void removeExistingText() {
-        robot.delay(3);
+        robot.delay(10);
         robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_A);
-        robot.delay(10);
+        robot.delay(20);
         robot.keyRelease(KeyEvent.VK_A);
         robot.keyRelease(KeyEvent.VK_CONTROL);
-        robot.delay(10);
+        robot.delay(20);
         robot.keyPress(KeyEvent.VK_BACK_SPACE);
         robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-        robot.delay(3);
+        robot.delay(10);
     }
     
     private void executeTab() {
-        robot.delay(10);
+        robot.delay(15);
         robot.keyPress(KeyEvent.VK_TAB);
         robot.keyRelease(KeyEvent.VK_TAB);
-        robot.delay(10);
+        robot.delay(15);
     }
     
     private void changeToMn() {
@@ -796,14 +804,14 @@ public class Jonathan extends Application {
         launch(args);
     }
     
-    private HashMap<String, Object> readResource() {
+    private TreeMap<String, Object> readResource() {
         return this.resourceMap;
     }
     
-    private HashMap<String, Object> loadResource(File resourceFile) {
+    private TreeMap<String, Object> loadResource(File resourceFile) {
         if (resourceFile.exists()) {
             File f = resourceFile;
-            HashMap<String, Object> mapping = new HashMap<>();
+            TreeMap<String, Object> mapping = new TreeMap<>();
             try {
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 DocumentBuilder db = dbf.newDocumentBuilder();
@@ -830,8 +838,8 @@ public class Jonathan extends Application {
         return null;
     }
 
-    private HashMap<String, Object> getMaps(NodeList nodeList) {
-        HashMap<String, Object> map = new HashMap<>();
+    private TreeMap<String, Object> getMaps(NodeList nodeList) {
+        TreeMap<String, Object> map = new TreeMap<>();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -844,19 +852,19 @@ public class Jonathan extends Application {
         }
         return map;
     }
-    private HashMap<String, Object> getSolbizMaps(NodeList nodeList) {
-        HashMap<String, Object> map = new HashMap<>();
+    private TreeMap<String, Object> getSolbizMaps(NodeList nodeList) {
+        TreeMap<String, Object> map = new TreeMap<>();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 String nodeName = node.getNodeName();
-                HashMap<String, Object> rows = new HashMap<>();
+                TreeMap<String, Object> rows = new TreeMap<>();
                 NodeList rowsList = node.getChildNodes();
                 for (int j = 0; j < rowsList.getLength(); j++) {
                     Node n = rowsList.item(j);
                     if (n.getNodeType() == Node.ELEMENT_NODE) {
                         String nName = n.getNodeName();
-                        HashMap<String, String> col = new HashMap<>();
+                        TreeMap<String, String> col = new TreeMap<>();
                         NodeList colList = n.getChildNodes();
                         for (int k = 0; k < colList.getLength(); k++) {
                             Node c = colList.item(k);
@@ -873,8 +881,46 @@ public class Jonathan extends Application {
                 map.put(nodeName+"_hotkey", ((Element) node).getAttribute("hotkey"));
             }
         }
+        
         return map;
     }
+    private TreeMap<String, Object> getSolbizMaps2(NodeList nodeList) {
+        TreeMap<String, Object> map = new TreeMap<>();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                String nodeName = node.getNodeName();
+                TreeMap<String, Object> rows = new TreeMap<>();
+                NodeList rowsList = node.getChildNodes();
+                for (int j = 0; j < rowsList.getLength(); j++) {
+                    Node n = rowsList.item(j);
+                    if (n.getNodeType() == Node.ELEMENT_NODE) {
+                        String nName = n.getNodeName();
+                        TreeMap<String, String> col = new TreeMap<>();
+                        NodeList colList = n.getChildNodes();
+                        for (int k = 0; k < colList.getLength(); k++) {
+                            Node c = colList.item(k);
+                            if (c.getNodeType() == Node.ELEMENT_NODE) {
+                                String cName = c.getNodeName();
+                                String cText = c.getTextContent();
+                                col.put(cName, cText);
+                            }
+                        }
+                        rows.put(nName, col);
+                    }
+                }
+                map.put(nodeName, rows);
+                map.put(nodeName+"_hotkey", ((Element) node).getAttribute("hotkey"));
+            }
+        }
+        System.out.println("HAHAHAAHAHAH");
+        map.forEach((String key, Object val) -> {
+            System.out.println("--------"+val);
+        });
+        
+        return map;
+    }
+    
 
     private void doType(int... keyCodes) {
         doType(keyCodes, 0, keyCodes.length);
