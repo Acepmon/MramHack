@@ -61,6 +61,8 @@ public class Jonathan extends Application {
 
         public final double WIDTH = 530;
         public final double HEIGHT = 700;
+        public final boolean RESIZABLE = true;
+        public final boolean MAXIMIZED = false;
         public final double FIELD_WIDTH = 220;
         public final double FIELD_HEIGHT = 40;
         public final boolean FIELD_EDITABLE = false;
@@ -75,7 +77,6 @@ public class Jonathan extends Application {
     }
 
     private interface InjectAction {
-
         public void run(Object fieldValue, ActionEvent event);
     }
 
@@ -231,8 +232,8 @@ public class Jonathan extends Application {
         stage.setScene(getScene());
         stage.setMinWidth(conf.WIDTH);
         stage.setMinHeight(conf.HEIGHT);
-        stage.setMaximized(false);
-        stage.setResizable(false);
+        stage.setMaximized(conf.MAXIMIZED);
+        stage.setResizable(conf.RESIZABLE);
         stage.setX(stage_x);
         stage.setY(stage_y);
         
@@ -271,7 +272,7 @@ public class Jonathan extends Application {
     }
     
     private void addAdditionalButtons() {
-        Button tab = new Button("<TAB>");
+        Button tab = new Button("(F1) <TAB>");
         tab.setPrefSize(conf.BUTTON_WIDTH, conf.BUTTON_HEIGHT);
         tab.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
         tab.setFont(btnFont);
@@ -287,7 +288,7 @@ public class Jonathan extends Application {
         tab.setOnMouseExited((event) -> {
             tab.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
         });
-        Button langBtn = new Button("<LANG>");
+        Button langBtn = new Button("(F2) <LANG>");
         langBtn.setPrefSize(conf.FIELD_WIDTH, conf.BUTTON_HEIGHT);
         langBtn.setFont(btnFont);
         langBtn.setAlignment(Pos.CENTER_LEFT);
@@ -303,7 +304,7 @@ public class Jonathan extends Application {
         langBtn.setOnMouseExited((event) -> {
             langBtn.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
         });
-        Button cdc = new Button("Хот, Дүүрэг, Код");
+        Button cdc = new Button("(F3) Хот, Дүүрэг, Код");
         cdc.setPrefSize(conf.WIDTH - conf.GRID_PADDING - conf.PANE_PADDING - conf.GRID_SPACING_H - conf.GRID_SPACING_H - 30, conf.BUTTON_HEIGHT);
         cdc.setFont(btnFont);
         cdc.setAlignment(Pos.CENTER_LEFT);
@@ -355,7 +356,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(profileMap.get("lname").toString(), "Овог", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(profileMap.get("lname").toString(), "Овог", profileMap.get("lname_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -367,7 +368,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(profileMap.get("fname").toString(), "Нэр", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(profileMap.get("fname").toString(), "Нэр", profileMap.get("fname_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -379,7 +380,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(locateMap.get("pos_city").toString(), "Хот", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(locateMap.get("pos_city").toString(), "Хот", locateMap.get("pos_city_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -391,7 +392,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(locateMap.get("pos_district").toString(), "Дүүрэг", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(locateMap.get("pos_district").toString(), "Дүүрэг", locateMap.get("pos_district_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -403,7 +404,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(locateMap.get("pos_code").toString(), "Планшетийн код", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(locateMap.get("pos_code").toString(), "Планшетийн код", locateMap.get("pos_code_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -415,7 +416,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(locateMap.get("name").toString(), "Талбайн нэр", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(locateMap.get("name").toString(), "Талбайн нэр", locateMap.get("name_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -427,7 +428,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(locateMap.get("size").toString(), "Талбайн хэмжээ", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(locateMap.get("size").toString(), "Талбайн хэмжээ", locateMap.get("size_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -436,25 +437,45 @@ public class Jonathan extends Application {
             hotkey = new HashMap<>();
             hotkey.put("hotkey", gridrow.getHotkey());
             hotkey.put("hashCode", ""+gridrow.hashCode());
+            hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
             Set<String> solbiz_keys = solbizMap.keySet();
             ObservableList<String> ob_sol_keys = FXCollections.observableArrayList();
-            solbiz_keys.stream().forEach((String key) -> ob_sol_keys.add(key));
+            solbiz_keys.stream().forEach((String key) -> {
+                ob_sol_keys.add(key);
+            });
             ob_sol_keys.sort((String o1, String o2) -> {
-                int k1 = Integer.parseInt(o1.substring(o1.lastIndexOf("w")+1, o1.length()));
-                int k2 = Integer.parseInt(o2.substring(o2.lastIndexOf("w")+1, o2.length()));
-                if (k1 > k2) {
-                    return 1;
-                } else if (k1 < k2) {
-                    return -1;
-                }
-                return 0;
+                return o1.compareTo(o2);
+//                if (o1.contains("hotkey") & o2.contains("hotkey")) {
+//                    
+//                }
+//                
+//                if (!o1.contains("hotkey") && !o2.contains("hotkey")) {
+//                    int k1 = Integer.parseInt(o1.substring(o1.lastIndexOf("w")+1, o1.indexOf("_hotkey")));
+//                    int k2 = Integer.parseInt(o2.substring(o2.lastIndexOf("w")+1, o2.indexOf("_hotkey")));
+//                    if (k1 > k2) {
+//                        return 1;
+//                    } else if (k1 < k2) {
+//                        return -1;
+//                    }
+//                } else {
+//                    int k1 = Integer.parseInt(o1.substring(o1.lastIndexOf("w")+1, o1.length()));
+//                    int k2 = Integer.parseInt(o2.substring(o2.lastIndexOf("w")+1, o2.length()));
+//                    if (k1 > k2) {
+//                        return 1;
+//                    } else if (k1 < k2) {
+//                        return -1;
+//                    }
+//                }
+//                return 0;
             });
             for (String key : ob_sol_keys) {
+                if (key.contains("_")) {
+                    
+                } else {
                 HashMap<String, Object> row = (HashMap<String, Object>) solbizMap.get(key);
                 int key_num = Integer.parseInt(key.substring(key.lastIndexOf("w")+1, key.length()));
-                
                 
                 HashMap<String, String> urtrag = (HashMap<String, String>) row.get("urtrag");
                 HashMap<String, String> orgorog = (HashMap<String, String>) row.get("orgorog");
@@ -466,6 +487,7 @@ public class Jonathan extends Application {
                 gridrow.setFieldValue("Urtrag: "+urtragField+"  Orgorog: "+orgorogField);
                 gridrow.setSpecialValue(row);
                 gridrow.setButtonText("Солбиз Мөр "+key_num);
+                gridrow.setHotkey(solbizMap.get(key+"_hotkey").toString());
                 gridrow.setAction((Object specialValue, ActionEvent event) -> {
                     HashMap<String, Object> solbiz = (HashMap<String, Object>) specialValue;
                     
@@ -486,15 +508,16 @@ public class Jonathan extends Application {
                     executeTab();
                     typeText(col_orgorog.get("min"));
                     executeTab();
-                    typeText(col_orgorog.get("sec"));  
+                    typeText(col_orgorog.get("sec"));
                     executeTab();
-                    
                     executeAltTab();
                 });
                 hotkey = new HashMap<>();
                 hotkey.put("hotkey", gridrow.getHotkey());
                 hotkey.put("hashCode", ""+gridrow.hashCode());
+                hotkeys.add(hotkey);
                 grids.addRow(gridrow);
+                }
             }
         } else {
             int confirm = JOptionPane.showConfirmDialog(null, "'resource.xml' file iig program iin folder dotor huulj ogno uu!", "Resource oldohgui bn", JOptionPane.OK_CANCEL_OPTION);
@@ -562,13 +585,15 @@ public class Jonathan extends Application {
     
     private void hotkeyConfiguration() {
         this.readResource().forEach((String key, Object value) -> {
-            if (key.equals("profile")) {
+            if (key.equals("solbiz")) {
                 HashMap<String, Object> profile = (HashMap<String, Object>) value;
-                profile.forEach((String profile_key, Object profile_value) -> {
-                    if (key.contains("hotkey")) {
-                        System.out.println(profile_value);
+                System.out.println(profile);
+                Set<String> profile_keys = profile.keySet();
+                for (Object k_obj : profile_keys.toArray()) {
+                    if (k_obj.toString().contains("hotkey")) {
+                        System.out.println(k_obj.toString());
                     }
-                });
+                }
             } else if (key.equals("locate")) {
                 
             } else if (key.equals("solbiz")) {
@@ -576,19 +601,43 @@ public class Jonathan extends Application {
             }
         });
         scene.setOnKeyPressed((event) -> {
-            hotkeys.stream().forEach((hash) -> {
-                if (event.getCode().getName().equalsIgnoreCase(hash.get("hotkey"))) {
-                    grids.getRows().stream().forEach((gridrow) -> {
-                        if (gridrow.hashCode() == Integer.parseInt(hash.get("hashCode"))) {
-                            if (gridrow.includeSpecial) {
-                                gridrow.action.run(gridrow.specialValue, null);
-                            } else {
-                                gridrow.action.run(gridrow.fieldValue, null);
+            if (event.getCode().equals(KeyCode.F1)) {
+                executeAltTab();
+                executeTab();
+                executeAltTab();
+            } else if (event.getCode().equals(KeyCode.F2)) {
+                executeAltTab();
+                changeLang();
+                executeAltTab();
+            } else if (event.getCode().equals(KeyCode.F3)) {
+                readResource().forEach((String cdc_key, Object cdc_value) -> {
+                    if (cdc_key.equals("locate")) {
+                        HashMap<String, Object> locate = (HashMap<String, Object>) cdc_value;
+                        executeAltTab();
+                        typeText(locate.get("pos_city").toString());
+                        executeTab();
+                        typeText(locate.get("pos_district").toString());
+                        executeTab();
+                        typeText(locate.get("pos_code").toString());
+                        executeTab();
+                        executeAltTab();
+                    }
+                });
+            } else {
+                hotkeys.stream().forEach((hash) -> {
+                    if (event.getCode().getName().equalsIgnoreCase(hash.get("hotkey"))) {
+                        grids.getRows().stream().forEach((gridrow) -> {
+                            if (gridrow.hashCode() == Integer.parseInt(hash.get("hashCode"))) {
+                                if (gridrow.includeSpecial) {
+                                    gridrow.action.run(gridrow.specialValue, null);
+                                } else {
+                                    gridrow.action.run(gridrow.fieldValue, null);
+                                }
                             }
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
+            }
         });
     }
     
@@ -700,6 +749,7 @@ public class Jonathan extends Application {
                     }
                 }
                 map.put(nodeName, rows);
+                map.put(nodeName+"_hotkey", ((Element) node).getAttribute("hotkey"));
             }
         }
         return map;
