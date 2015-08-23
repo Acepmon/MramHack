@@ -716,13 +716,13 @@ public class Jonathan extends Application {
     
     private boolean executeAltTab() {
         try {
-            robot.delay(10);
+            robot.delay(5);
             robot.keyPress(KeyEvent.VK_ALT);
             robot.keyPress(KeyEvent.VK_TAB);
-            robot.delay(50);
+            robot.delay(30);
             robot.keyRelease(KeyEvent.VK_ALT);
             robot.keyRelease(KeyEvent.VK_TAB);
-            robot.delay(10);
+            robot.delay(5);
             return true;
         } catch (Exception ex) {
             return false;
@@ -740,23 +740,23 @@ public class Jonathan extends Application {
     }
     
     private void removeExistingText() {
-        robot.delay(10);
+        robot.delay(6);
         robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_A);
-        robot.delay(20);
+        robot.delay(15);
         robot.keyRelease(KeyEvent.VK_A);
         robot.keyRelease(KeyEvent.VK_CONTROL);
-        robot.delay(20);
+        robot.delay(15);
         robot.keyPress(KeyEvent.VK_BACK_SPACE);
         robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-        robot.delay(10);
+        robot.delay(6);
     }
     
     private void executeTab() {
-        robot.delay(15);
+        robot.delay(5);
         robot.keyPress(KeyEvent.VK_TAB);
         robot.keyRelease(KeyEvent.VK_TAB);
-        robot.delay(15);
+        robot.delay(5);
     }
     
     private void changeToMn() {
@@ -776,13 +776,13 @@ public class Jonathan extends Application {
     }
     
     private void changeLang() {
-        robot.delay(10);
+        robot.delay(5);
         robot.keyPress(KeyEvent.VK_ALT);
         robot.keyPress(KeyEvent.VK_SHIFT);
-        robot.delay(200);
+        robot.delay(180);
         robot.keyRelease(KeyEvent.VK_ALT);
         robot.keyRelease(KeyEvent.VK_SHIFT);
-        robot.delay(10);
+        robot.delay(5);
     }
     
     public static void main(String[] args) {
