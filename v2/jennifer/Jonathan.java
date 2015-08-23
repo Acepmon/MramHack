@@ -15,15 +15,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.Mnemonic;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -48,9 +59,9 @@ public class Jonathan extends Application {
     // Configurations
     private interface conf {
 
-        public final double WIDTH = 500;
+        public final double WIDTH = 530;
         public final double HEIGHT = 700;
-        public final double FIELD_WIDTH = 250;
+        public final double FIELD_WIDTH = 220;
         public final double FIELD_HEIGHT = 40;
         public final boolean FIELD_EDITABLE = false;
         public final double BUTTON_WIDTH = 200;
@@ -59,6 +70,8 @@ public class Jonathan extends Application {
         public final double GRID_SPACING_V = 5;
         public final double GRID_PADDING = 10;
         public final double PANE_PADDING = 0;
+        public final int FONT_SIZE = 14;
+        public final String FONT_FAMILY = "Arial";
     }
 
     private interface InjectAction {
@@ -74,6 +87,7 @@ public class Jonathan extends Application {
         private InjectAction action;
         private Object specialValue;
         private boolean includeSpecial = false;
+        private String hotkey;
 
         public GridRow(String fieldValue, String buttonText) {
             this.fieldValue = fieldValue;
@@ -86,6 +100,13 @@ public class Jonathan extends Application {
             this.buttonText = buttonText;
             this.action = action;
         }
+        
+        public GridRow(String fieldValue, String buttonText, String hotkey, InjectAction action) {
+            this.fieldValue = fieldValue;
+            this.buttonText = buttonText;
+            this.hotkey = hotkey;
+            this.action = action;
+        }
 
         public GridRow() {
             this.fieldValue = "";
@@ -94,6 +115,14 @@ public class Jonathan extends Application {
         public GridRow(boolean includeSpecial) {
             this.fieldValue = "";
             this.includeSpecial = includeSpecial;
+        }
+
+        public String getHotkey() {
+            return hotkey;
+        }
+
+        public void setHotkey(String hotkey) {
+            this.hotkey = hotkey;
         }
 
         public boolean isIncludeSpecial() {
@@ -174,6 +203,15 @@ public class Jonathan extends Application {
     
     // Current language
     private String lang;
+    
+    // Button Font
+    private Font btnFont;
+    
+    // Resources
+    private HashMap<String, Object> resourceMap;
+    
+    // Hotkeys
+    private ObservableList<HashMap<String, String>> hotkeys;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -183,10 +221,12 @@ public class Jonathan extends Application {
 
         double stage_x = scr_width - conf.WIDTH;
         double stage_y = scr_height - conf.HEIGHT;
-
+        
+        hotkeys = FXCollections.observableArrayList();
         grids = new Grids();
         robot = new Robot();
-
+        btnFont = new Font(conf.FONT_FAMILY, conf.FONT_SIZE);
+        
         stage = primaryStage;
         stage.setScene(getScene());
         stage.setMinWidth(conf.WIDTH);
@@ -195,10 +235,12 @@ public class Jonathan extends Application {
         stage.setResizable(false);
         stage.setX(stage_x);
         stage.setY(stage_y);
-        stage.show();
-
+        
         initializeComponents();
         loadGrid();
+        hotkeyConfiguration();
+        
+        stage.show();
         
         InputContext context = InputContext.getInstance();
         lang = context.getLocale().toString();
@@ -209,7 +251,6 @@ public class Jonathan extends Application {
 
     private Scene getScene() {
         scene = new Scene(getRoot(), Color.web("#F0F4F5", 0.5));
-
         return scene;
     }
 
@@ -225,64 +266,152 @@ public class Jonathan extends Application {
         gridPane.setHgap(conf.GRID_SPACING_H);
         gridPane.setVgap(conf.GRID_SPACING_V);
         gridPane.setPadding(new Insets(conf.GRID_PADDING));
+        
+        Button tab = new Button("<TAB>");
+        tab.setPrefSize(conf.BUTTON_WIDTH, conf.BUTTON_HEIGHT);
+        tab.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        tab.setFont(btnFont);
+        tab.setAlignment(Pos.CENTER_LEFT);
+        tab.setOnMouseEntered((event) -> {
+            tab.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
+        });
+        tab.setOnMouseExited((event) -> {
+            tab.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        });
+        Button langBtn = new Button("<LANG>");
+        langBtn.setPrefSize(conf.FIELD_WIDTH, conf.BUTTON_HEIGHT);
+        langBtn.setFont(btnFont);
+        langBtn.setAlignment(Pos.CENTER_LEFT);
+        langBtn.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        langBtn.setOnMouseEntered((event) -> {
+            langBtn.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
+        });
+        langBtn.setOnMouseExited((event) -> {
+            langBtn.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        });
+        Button cdc = new Button("Хот, Дүүрэг, Код");
+        cdc.setPrefSize(conf.WIDTH - conf.GRID_PADDING - conf.PANE_PADDING - conf.GRID_SPACING_H - conf.GRID_SPACING_H - 30, conf.BUTTON_HEIGHT);
+        cdc.setFont(btnFont);
+        cdc.setAlignment(Pos.CENTER_LEFT);
+        cdc.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        cdc.setOnMouseEntered((event) -> {
+            cdc.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
+        });
+        cdc.setOnMouseExited((event) -> {
+            cdc.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        });
+        
+        
+        gridPane.add(tab, 0, 1);
+        gridPane.add(langBtn, 1, 1);
+        gridPane.add(cdc, 0, 2, 2, 1);
+        
         return gridPane;
     }
 
     private void initializeComponents() {
         File resource = new File("resource.xml");
         if (resource.exists()) {
-            HashMap<String, Object> map = readResource(resource);
+            this.resourceMap = loadResource(resource);
+            HashMap<String, Object> map = readResource();
             HashMap<String, Object> profileMap = (HashMap<String, Object>) map.get("profile");
             HashMap<String, Object> locateMap = (HashMap<String, Object>) map.get("locate");
             HashMap<String, Object> solbizMap = (HashMap<String, Object>) map.get("solbiz");
-            grids.addRow(new GridRow(profileMap.get("pos").toString(), "Албан тушаал", (Object fieldValue, ActionEvent event) -> {
+            GridRow gridrow = new GridRow(profileMap.get("pos").toString(), "Албан тушаал", profileMap.get("pos_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
-            }));
-            grids.addRow(new GridRow(profileMap.get("fname").toString(), "Нэр", (Object fieldValue, ActionEvent event) -> {
+            });
+            HashMap<String, String> hotkey = new HashMap<>();
+            hotkey.put("hotkey", gridrow.getHotkey());
+            hotkey.put("hashCode", ""+gridrow.hashCode());
+            hotkeys.add(hotkey);
+            grids.addRow(gridrow);
+            
+            gridrow = new GridRow(profileMap.get("fname").toString(), "Нэр", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
-            }));
-            grids.addRow(new GridRow(profileMap.get("lname").toString(), "Овог", (Object fieldValue, ActionEvent event) -> {
+            });
+            hotkey = new HashMap<>();
+            hotkey.put("hotkey", gridrow.getHotkey());
+            hotkey.put("hashCode", ""+gridrow.hashCode());
+            hotkeys.add(hotkey);
+            grids.addRow(gridrow);
+            
+            gridrow = new GridRow(profileMap.get("lname").toString(), "Овог", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
-            }));
-            grids.addRow(new GridRow(locateMap.get("pos_city").toString(), "Хот", (Object fieldValue, ActionEvent event) -> {
+            });
+            hotkey = new HashMap<>();
+            hotkey.put("hotkey", gridrow.getHotkey());
+            hotkey.put("hashCode", ""+gridrow.hashCode());
+            hotkeys.add(hotkey);
+            grids.addRow(gridrow);
+            
+            gridrow = new GridRow(locateMap.get("pos_city").toString(), "Хот", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
-            }));
-            grids.addRow(new GridRow(locateMap.get("pos_district").toString(), "Дүүрэг", (Object fieldValue, ActionEvent event) -> {
+            });
+            hotkey = new HashMap<>();
+            hotkey.put("hotkey", gridrow.getHotkey());
+            hotkey.put("hashCode", ""+gridrow.hashCode());
+            hotkeys.add(hotkey);
+            grids.addRow(gridrow);
+            
+            gridrow = new GridRow(locateMap.get("pos_district").toString(), "Дүүрэг", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
-            }));
-            grids.addRow(new GridRow(locateMap.get("pos_code").toString(), "Планшетийн код", (Object fieldValue, ActionEvent event) -> {
+            });
+            hotkey = new HashMap<>();
+            hotkey.put("hotkey", gridrow.getHotkey());
+            hotkey.put("hashCode", ""+gridrow.hashCode());
+            hotkeys.add(hotkey);
+            grids.addRow(gridrow);
+            
+            gridrow = new GridRow(locateMap.get("pos_code").toString(), "Планшетийн код", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
-            }));
-            grids.addRow(new GridRow(locateMap.get("name").toString(), "Талбайн нэр", (Object fieldValue, ActionEvent event) -> {
+            });
+            hotkey = new HashMap<>();
+            hotkey.put("hotkey", gridrow.getHotkey());
+            hotkey.put("hashCode", ""+gridrow.hashCode());
+            hotkeys.add(hotkey);
+            grids.addRow(gridrow);
+            
+            gridrow = new GridRow(locateMap.get("name").toString(), "Талбайн нэр", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
-            }));
-            grids.addRow(new GridRow(locateMap.get("size").toString(), "Талбайн хэмжээ", (Object fieldValue, ActionEvent event) -> {
+            });
+            hotkey = new HashMap<>();
+            hotkey.put("hotkey", gridrow.getHotkey());
+            hotkey.put("hashCode", ""+gridrow.hashCode());
+            hotkeys.add(hotkey);
+            grids.addRow(gridrow);
+            
+            gridrow = new GridRow(locateMap.get("size").toString(), "Талбайн хэмжээ", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
                 executeAltTab();
-            }));
+            });
+            hotkey = new HashMap<>();
+            hotkey.put("hotkey", gridrow.getHotkey());
+            hotkey.put("hashCode", ""+gridrow.hashCode());
+            grids.addRow(gridrow);
+            
             Set<String> solbiz_keys = solbizMap.keySet();
             ObservableList<String> ob_sol_keys = FXCollections.observableArrayList();
             solbiz_keys.stream().forEach((String key) -> ob_sol_keys.add(key));
@@ -307,7 +436,7 @@ public class Jonathan extends Application {
                 String urtragField = urtrag.get("grad") + ", " + urtrag.get("min") + ", " + urtrag.get("sec");
                 String orgorogField = orgorog.get("grad") + ", " + orgorog.get("min") + ", " + orgorog.get("sec");
                 
-                GridRow gridrow = new GridRow(true);
+                gridrow = new GridRow(true);
                 gridrow.setFieldValue("Urtrag: "+urtragField+"  Orgorog: "+orgorogField);
                 gridrow.setSpecialValue(row);
                 gridrow.setButtonText("Солбиз Мөр "+key_num);
@@ -336,6 +465,9 @@ public class Jonathan extends Application {
                     
                     executeAltTab();
                 });
+                hotkey = new HashMap<>();
+                hotkey.put("hotkey", gridrow.getHotkey());
+                hotkey.put("hashCode", ""+gridrow.hashCode());
                 grids.addRow(gridrow);
             }
         } else {
@@ -349,12 +481,12 @@ public class Jonathan extends Application {
     }
 
     private void loadGrid() {
-        int current_row = 1;
+        int current_row = 4;
         for (GridRow row : this.grids.getRows()) {
             TextField field = new TextField(row.fieldValue);
             field.setPrefSize(conf.FIELD_WIDTH, conf.FIELD_HEIGHT);
             field.setEditable(conf.FIELD_EDITABLE);
-            field.setFont(new Font("Arial", 16));
+            field.setFont(btnFont);
             field.setOnMousePressed((event) -> {
                 String myString = field.getText();
                 StringSelection stringSelection = new StringSelection(myString);
@@ -362,7 +494,7 @@ public class Jonathan extends Application {
                 clpbrd.setContents(stringSelection, null);
             });
             Button button = new Button(row.buttonText);
-            button.setFont(new Font("Arial", 16));
+            button.setFont(btnFont);
             button.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
             field.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
             button.setOnMouseEntered((event) -> {
@@ -381,6 +513,7 @@ public class Jonathan extends Application {
                 button.setStyle("-fx-text-fill: blue; -fx-font-weight: bold");
                 field.setStyle("-fx-text-fill: blue; -fx-font-weight: bold");
             });
+            button.setAlignment(Pos.CENTER_LEFT);
             button.setPrefSize(conf.BUTTON_WIDTH, conf.BUTTON_HEIGHT);
             button.setOnAction((event) -> {
                 if (row.includeSpecial) {
@@ -389,9 +522,48 @@ public class Jonathan extends Application {
                     row.action.run(row.fieldValue, event);
                 }
             });
-            gridPane.addRow(current_row, button, field);
+            Circle hotkey_circle = new Circle(13, Color.DARKGRAY);
+            Text hotkey_text = new Text(row.hotkey);
+            hotkey_text.setFill(Color.WHITE);
+            hotkey_text.setStyle("-fx-font-weight: bold");
+            hotkey_text.setFont(new Font("Consolas", btnFont.getSize()));
+            hotkey_text.setBoundsType(TextBoundsType.VISUAL);
+            StackPane hotkey_stack = new StackPane(hotkey_circle, hotkey_text);
+            gridPane.addRow(current_row, new HBox(5, hotkey_stack, button), field);
             current_row++;
         }
+    }
+    
+    private void hotkeyConfiguration() {
+        this.readResource().forEach((String key, Object value) -> {
+            if (key.equals("profile")) {
+                HashMap<String, Object> profile = (HashMap<String, Object>) value;
+                profile.forEach((String profile_key, Object profile_value) -> {
+                    if (key.contains("hotkey")) {
+                        System.out.println(profile_value);
+                    }
+                });
+            } else if (key.equals("locate")) {
+                
+            } else if (key.equals("solbiz")) {
+                
+            }
+        });
+        scene.setOnKeyPressed((event) -> {
+            hotkeys.stream().forEach((hash) -> {
+                if (event.getCode().getName().equalsIgnoreCase(hash.get("hotkey"))) {
+                    grids.getRows().stream().forEach((gridrow) -> {
+                        if (gridrow.hashCode() == Integer.parseInt(hash.get("hashCode"))) {
+                            if (gridrow.includeSpecial) {
+                                gridrow.action.run(gridrow.specialValue, null);
+                            } else {
+                                gridrow.action.run(gridrow.fieldValue, null);
+                            }
+                        }
+                    });
+                }
+            });
+        });
     }
     
     private boolean executeAltTab() {
@@ -428,7 +600,11 @@ public class Jonathan extends Application {
         launch(args);
     }
     
-    private HashMap<String, Object> readResource(File resourceFile) {
+    private HashMap<String, Object> readResource() {
+        return this.resourceMap;
+    }
+    
+    private HashMap<String, Object> loadResource(File resourceFile) {
         if (resourceFile.exists()) {
             File f = resourceFile;
             HashMap<String, Object> mapping = new HashMap<>();
@@ -463,9 +639,11 @@ public class Jonathan extends Application {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element e = (Element) node;
                 String nodeName = node.getNodeName();
                 String text = node.getTextContent();
                 map.put(nodeName, text);
+                map.put(nodeName+"_hotkey", e.getAttribute("hotkey"));
             }
         }
         return map;
@@ -476,6 +654,7 @@ public class Jonathan extends Application {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element e = (Element) node;
                 String nodeName = node.getNodeName();
                 HashMap<String, String> rows = new HashMap<>();
                 NodeList rowsList = node.getChildNodes();
@@ -488,6 +667,7 @@ public class Jonathan extends Application {
                     }
                 }
                 map.put(nodeName, rows);
+                map.put(nodeName+"_hotkey", e.getAttribute("hotkey"));
             }
         }
         return map;
