@@ -313,7 +313,9 @@ public class Jonathan extends Application {
                     executeTab();
                     typeText(locate.get("pos_district").toString());
                     executeTab();
-                    typeText(locate.get("pos_code").toString());
+                    String str = locate.get("pos_code").toString();
+                    String f_str = "М"+str.substring(1);
+                    typeText(f_str);
                     executeTab();
                     executeAltTab();
                 }
@@ -450,7 +452,9 @@ public class Jonathan extends Application {
             
             gridrow = new GridRow(locateMap.get("pos_code").toString(), "Планшетийн код", locateMap.get("pos_code_hotkey").toString(), (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
-                typeText(fieldValue.toString());
+                String str = fieldValue.toString();
+                String f_str = "М"+str.substring(1);
+                typeText(f_str);
                 executeTab();
                 executeAltTab();
             });
@@ -662,7 +666,9 @@ public class Jonathan extends Application {
                         executeTab();
                         typeText(locate.get("pos_district").toString());
                         executeTab();
-                        typeText(locate.get("pos_code").toString());
+                        String str = locate.get("pos_code").toString();
+                        String f_str = "М"+str.substring(1);
+                        typeText(f_str);
                         executeTab();
                         executeAltTab();
                     }
@@ -746,7 +752,7 @@ public class Jonathan extends Application {
     }
     
     private void removeExistingText() {
-        robot.delay(10);
+        robot.delay(5);
         robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_A);
         robot.delay(20);
@@ -755,14 +761,14 @@ public class Jonathan extends Application {
         robot.delay(20);
         robot.keyPress(KeyEvent.VK_BACK_SPACE);
         robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-        robot.delay(10);
+        robot.delay(5);
     }
     
     private void executeTab() {
-        robot.delay(20);
+        robot.delay(10);
         robot.keyPress(KeyEvent.VK_TAB);
         robot.keyRelease(KeyEvent.VK_TAB);
-        robot.delay(20);
+        robot.delay(10);
     }
     
     private void changeToMn() {
@@ -782,13 +788,13 @@ public class Jonathan extends Application {
     }
     
     private void changeLang() {
-        robot.delay(20);
+        robot.delay(10);
         robot.keyPress(KeyEvent.VK_ALT);
         robot.keyPress(KeyEvent.VK_SHIFT);
         robot.delay(200);
         robot.keyRelease(KeyEvent.VK_ALT);
         robot.keyRelease(KeyEvent.VK_SHIFT);
-        robot.delay(20);
+        robot.delay(10);
     }
     
     public static void main(String[] args) {
@@ -932,7 +938,7 @@ public class Jonathan extends Application {
                     doType(java.awt.event.KeyEvent.VK_L);
                     break;
                 case 'м':
-                    doType(java.awt.event.KeyEvent.VK_B);
+                    doType(KeyEvent.VK_B);
                     break;
                 case 'н':
                     doType(java.awt.event.KeyEvent.VK_Y);
@@ -1038,7 +1044,7 @@ public class Jonathan extends Application {
                     doType(java.awt.event.KeyEvent.VK_SHIFT, java.awt.event.KeyEvent.VK_L);
                     break;
                 case 'М':
-                    doType(java.awt.event.KeyEvent.VK_SHIFT, java.awt.event.KeyEvent.VK_B);
+                    doType(KeyEvent.VK_SHIFT, KeyEvent.VK_B);
                     break;
                 case 'Н':
                     doType(java.awt.event.KeyEvent.VK_SHIFT, java.awt.event.KeyEvent.VK_Y);
@@ -1153,6 +1159,9 @@ public class Jonathan extends Application {
                     break;
                 case '.':
                     doType(java.awt.event.KeyEvent.VK_6);
+                    break;
+                case ',':
+                    doType(KeyEvent.VK_8);
                     break;
                 case ' ':
                     doType(java.awt.event.KeyEvent.VK_SPACE);
