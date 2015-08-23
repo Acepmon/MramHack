@@ -70,7 +70,7 @@ public class Jonathan extends Application {
         public final double GRID_SPACING_V = 5;
         public final double GRID_PADDING = 10;
         public final double PANE_PADDING = 0;
-        public final int FONT_SIZE = 14;
+        public final int FONT_SIZE = 13;
         public final String FONT_FAMILY = "Arial";
     }
 
@@ -238,6 +238,7 @@ public class Jonathan extends Application {
         
         initializeComponents();
         loadGrid();
+        addAdditionalButtons();
         hotkeyConfiguration();
         
         stage.show();
@@ -266,12 +267,20 @@ public class Jonathan extends Application {
         gridPane.setHgap(conf.GRID_SPACING_H);
         gridPane.setVgap(conf.GRID_SPACING_V);
         gridPane.setPadding(new Insets(conf.GRID_PADDING));
-        
+        return gridPane;
+    }
+    
+    private void addAdditionalButtons() {
         Button tab = new Button("<TAB>");
         tab.setPrefSize(conf.BUTTON_WIDTH, conf.BUTTON_HEIGHT);
         tab.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
         tab.setFont(btnFont);
         tab.setAlignment(Pos.CENTER_LEFT);
+        tab.setOnAction((event) -> {
+            executeAltTab();
+            executeTab();
+            executeAltTab();
+        });
         tab.setOnMouseEntered((event) -> {
             tab.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
         });
@@ -283,6 +292,11 @@ public class Jonathan extends Application {
         langBtn.setFont(btnFont);
         langBtn.setAlignment(Pos.CENTER_LEFT);
         langBtn.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        langBtn.setOnAction((event) -> {
+            executeAltTab();
+            changeLang();
+            executeAltTab();
+        });
         langBtn.setOnMouseEntered((event) -> {
             langBtn.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
         });
@@ -294,6 +308,21 @@ public class Jonathan extends Application {
         cdc.setFont(btnFont);
         cdc.setAlignment(Pos.CENTER_LEFT);
         cdc.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        cdc.setOnAction((event) -> {
+            readResource().forEach((String cdc_key, Object cdc_value) -> {
+                if (cdc_key.equals("locate")) {
+                    HashMap<String, Object> locate = (HashMap<String, Object>) cdc_value;
+                    executeAltTab();
+                    typeText(locate.get("pos_city").toString());
+                    executeTab();
+                    typeText(locate.get("pos_district").toString());
+                    executeTab();
+                    typeText(locate.get("pos_code").toString());
+                    executeTab();
+                    executeAltTab();
+                }
+            });
+        });
         cdc.setOnMouseEntered((event) -> {
             cdc.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
         });
@@ -301,12 +330,9 @@ public class Jonathan extends Application {
             cdc.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
         });
         
-        
         gridPane.add(tab, 0, 1);
         gridPane.add(langBtn, 1, 1);
         gridPane.add(cdc, 0, 2, 2, 1);
-        
-        return gridPane;
     }
 
     private void initializeComponents() {
@@ -329,7 +355,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(profileMap.get("fname").toString(), "Нэр", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(profileMap.get("lname").toString(), "Овог", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -341,7 +367,7 @@ public class Jonathan extends Application {
             hotkeys.add(hotkey);
             grids.addRow(gridrow);
             
-            gridrow = new GridRow(profileMap.get("lname").toString(), "Овог", (Object fieldValue, ActionEvent event) -> {
+            gridrow = new GridRow(profileMap.get("fname").toString(), "Нэр", (Object fieldValue, ActionEvent event) -> {
                 executeAltTab();
                 typeText(fieldValue.toString());
                 executeTab();
@@ -582,12 +608,12 @@ public class Jonathan extends Application {
     }
 
     private void typeText(String text) {
-        robot.delay(20);
+        robot.delay(5);
         char[] ch = text.toCharArray();
         for (char c : ch) {
             type(c);
         }
-        robot.delay(20);
+        robot.delay(5);
     }
     
     private void executeTab() {
@@ -624,7 +650,7 @@ public class Jonathan extends Application {
 
                 mapping.put("profile", getMaps(profile));
                 mapping.put("locate", getMaps(locate));
-                mapping.put("solbiz", getSolbizMaps2(solbiz));
+                mapping.put("solbiz", getSolbizMaps(solbiz));
 
                 return mapping;
             } catch (SAXException | IOException | ParserConfigurationException ex) {
@@ -648,32 +674,7 @@ public class Jonathan extends Application {
         }
         return map;
     }
-
     private HashMap<String, Object> getSolbizMaps(NodeList nodeList) {
-        HashMap<String, Object> map = new HashMap<>();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element e = (Element) node;
-                String nodeName = node.getNodeName();
-                HashMap<String, String> rows = new HashMap<>();
-                NodeList rowsList = node.getChildNodes();
-                for (int j = 0; j < rowsList.getLength(); j++) {
-                    Node n = rowsList.item(j);
-                    if (n.getNodeType() == Node.ELEMENT_NODE) {
-                        String nName = n.getNodeName();
-                        String nText = n.getTextContent();
-                        rows.put(nName, nText);
-                    }
-                }
-                map.put(nodeName, rows);
-                map.put(nodeName+"_hotkey", e.getAttribute("hotkey"));
-            }
-        }
-        return map;
-    }
-    
-    private HashMap<String, Object> getSolbizMaps2(NodeList nodeList) {
         HashMap<String, Object> map = new HashMap<>();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
@@ -841,7 +842,7 @@ public class Jonathan extends Application {
                     doType(java.awt.event.KeyEvent.VK_S);
                     break;
                 case 'ь':
-                    doType(java.awt.event.KeyEvent.VK_COMMA);
+                    doType(KeyEvent.VK_COMMA);
                     break;
                 case 'э':
                     doType(java.awt.event.KeyEvent.VK_T);
