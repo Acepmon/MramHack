@@ -19,16 +19,11 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.Mnemonic;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -305,7 +300,7 @@ public class Jonathan extends Application {
             langBtn.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
         });
         Button cdc = new Button("(F3) Хот, Дүүрэг, Код");
-        cdc.setPrefSize(conf.WIDTH - conf.GRID_PADDING - conf.PANE_PADDING - conf.GRID_SPACING_H - conf.GRID_SPACING_H - 30, conf.BUTTON_HEIGHT);
+        cdc.setPrefSize(conf.BUTTON_WIDTH, conf.BUTTON_HEIGHT);
         cdc.setFont(btnFont);
         cdc.setAlignment(Pos.CENTER_LEFT);
         cdc.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
@@ -330,10 +325,59 @@ public class Jonathan extends Application {
         cdc.setOnMouseExited((event) -> {
             cdc.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
         });
+        Button solbizBtn = new Button("(F5) Солбицол Бүхэлдээ");
+        solbizBtn.setPrefSize(conf.BUTTON_WIDTH, conf.BUTTON_HEIGHT);
+        solbizBtn.setFont(btnFont);
+        solbizBtn.setAlignment(Pos.CENTER_LEFT);
+        solbizBtn.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        solbizBtn.setOnMouseEntered((event) -> {
+            cdc.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
+        });
+        solbizBtn.setOnMouseExited((event) -> {
+            cdc.setStyle("-fx-font-weight: bold; -fx-text-fill: blue");
+        });
+        solbizBtn.setOnAction((event) -> {
+            readResource().forEach((String solbiz_key, Object solbiz_value) -> {
+                if (solbiz_key.equals("solbiz")) {
+                    HashMap<String, Object> solbiz_map = (HashMap<String, Object>) solbiz_value;
+                    executeAltTab();
+                    solbiz_map.forEach((String s_key, Object s_val) -> {
+                        if (s_key.contains("hotkey")) {
+                            
+                        } else {
+                            HashMap<String, Object> solbiz = (HashMap<String, Object>) s_val;
+                    
+                            HashMap<String, String> col_urtrag = (HashMap<String, String>) solbiz.get("urtrag");
+                            HashMap<String, String> col_orgorog = (HashMap<String, String>) solbiz.get("orgorog");
+                            
+                            // Urtrag
+                            typeText(col_urtrag.get("grad"));
+                            executeTab();
+                            typeText(col_urtrag.get("min"));
+                            executeTab();
+                            typeText(col_urtrag.get("sec"));
+                            executeTab();
+
+                            // Orgorog
+                            typeText(col_orgorog.get("grad"));
+                            executeTab();
+                            typeText(col_orgorog.get("min"));
+                            executeTab();
+                            typeText(col_orgorog.get("sec"));
+                            executeTab();
+                            
+                        }
+                    });
+                    executeAltTab();
+                }
+            });
+        });
+        
         
         gridPane.add(tab, 0, 1);
         gridPane.add(langBtn, 1, 1);
-        gridPane.add(cdc, 0, 2, 2, 1);
+        gridPane.add(cdc, 0, 2);
+        gridPane.add(solbizBtn, 1, 2);
     }
 
     private void initializeComponents() {
@@ -623,6 +667,41 @@ public class Jonathan extends Application {
                         executeAltTab();
                     }
                 });
+            } else if (event.getCode().equals(KeyCode.F5)) {
+                readResource().forEach((String solbiz_key, Object solbiz_value) -> {
+                if (solbiz_key.equals("solbiz")) {
+                    HashMap<String, Object> solbiz_map = (HashMap<String, Object>) solbiz_value;
+                    executeAltTab();
+                    solbiz_map.forEach((String s_key, Object s_val) -> {
+                        if (s_key.contains("hotkey")) {
+                            
+                        } else {
+                            HashMap<String, Object> solbiz = (HashMap<String, Object>) s_val;
+                    
+                            HashMap<String, String> col_urtrag = (HashMap<String, String>) solbiz.get("urtrag");
+                            HashMap<String, String> col_orgorog = (HashMap<String, String>) solbiz.get("orgorog");
+                            
+                            // Urtrag
+                            typeText(col_urtrag.get("grad"));
+                            executeTab();
+                            typeText(col_urtrag.get("min"));
+                            executeTab();
+                            typeText(col_urtrag.get("sec"));
+                            executeTab();
+
+                            // Orgorog
+                            typeText(col_orgorog.get("grad"));
+                            executeTab();
+                            typeText(col_orgorog.get("min"));
+                            executeTab();
+                            typeText(col_orgorog.get("sec"));
+                            executeTab();
+                            
+                        }
+                    });
+                    executeAltTab();
+                }
+            });
             } else {
                 hotkeys.stream().forEach((hash) -> {
                     if (event.getCode().getName().equalsIgnoreCase(hash.get("hotkey"))) {
@@ -1041,12 +1120,12 @@ public class Jonathan extends Application {
                     doType(java.awt.event.KeyEvent.VK_SHIFT, java.awt.event.KeyEvent.VK_9);
                     break;
                 case '-':
-                    doType(KeyEvent.VK_ALT, KeyEvent.VK_SHIFT);
+//                    doType(KeyEvent.VK_ALT, KeyEvent.VK_SHIFT);
                     robot.delay(20);
-                    doType(KeyEvent.VK_MINUS);
+                    doType(KeyEvent.VK_2);
                     robot.delay(10);
-                    doType(KeyEvent.VK_ALT, KeyEvent.VK_SHIFT);
-                    robot.delay(20);
+//                    doType(KeyEvent.VK_ALT, KeyEvent.VK_SHIFT);
+//                    robot.delay(20);
                     break;
                 case '\t':
                     doType(java.awt.event.KeyEvent.VK_TAB);

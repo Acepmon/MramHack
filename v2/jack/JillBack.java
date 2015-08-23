@@ -142,8 +142,6 @@ public class JillBack {
     public JillBack() {
         HashMap<String, Object> map = readResource(res);
         
-        
-        
         try {
             robot = new Robot();
 
