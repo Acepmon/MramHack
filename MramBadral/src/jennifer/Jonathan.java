@@ -722,13 +722,13 @@ public class Jonathan extends Application {
     
     private boolean executeAltTab() {
         try {
-            robot.delay(20);
+            robot.delay(5);
             robot.keyPress(KeyEvent.VK_ALT);
             robot.keyPress(KeyEvent.VK_TAB);
-            robot.delay(50);
+            robot.delay(30);
             robot.keyRelease(KeyEvent.VK_TAB);
             robot.keyRelease(KeyEvent.VK_ALT);
-            robot.delay(20);
+            robot.delay(5);
             return true;
         } catch (Exception ex) {
             return false;
@@ -736,19 +736,59 @@ public class Jonathan extends Application {
     }
 
     private void typeText(String text) {
-        robot.delay(5);
+        removeExistingText();
+        robot.delay(2);
         char[] ch = text.toCharArray();
         for (char c : ch) {
             type(c);
         }
+        robot.delay(2);
+    }
+    
+    private void removeExistingText() {
+        robot.delay(5);
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_A);
+        robot.delay(20);
+        robot.keyRelease(KeyEvent.VK_A);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.delay(20);
+        robot.keyPress(KeyEvent.VK_BACK_SPACE);
+        robot.keyRelease(KeyEvent.VK_BACK_SPACE);
         robot.delay(5);
     }
     
     private void executeTab() {
-        robot.delay(20);
+        robot.delay(5);
         robot.keyPress(KeyEvent.VK_TAB);
         robot.keyRelease(KeyEvent.VK_TAB);
-        robot.delay(20);
+        robot.delay(5);
+    }
+    
+    private void changeToMn() {
+        if (lang.contains("en")) {
+            changeLang();
+            lang = "mn_MN";
+            System.out.println(lang);
+        }
+    }
+
+    private void changeToEn() {
+        if (!lang.contains("mn")) {
+            changeLang();
+            lang = "en_US";
+            System.out.println(lang);
+        }
+    }
+    
+    private void changeLang() {
+        robot.delay(5);
+        robot.keyPress(KeyEvent.VK_ALT);
+        robot.keyPress(KeyEvent.VK_SHIFT);
+        robot.delay(200);
+        robot.keyRelease(KeyEvent.VK_ALT);
+        robot.keyRelease(KeyEvent.VK_SHIFT);
+        robot.delay(5);
     }
     public static void main(String[] args) {
         launch(args);
@@ -832,32 +872,6 @@ public class Jonathan extends Application {
             }
         }
         return map;
-    }
-
-    private void changeToMn() {
-        if (lang.contains("en")) {
-            changeLang();
-            lang = "mn_MN";
-            System.out.println(lang);
-        }
-    }
-
-    private void changeToEn() {
-        if (!lang.contains("mn")) {
-            changeLang();
-            lang = "en_US";
-            System.out.println(lang);
-        }
-    }
-    
-    private void changeLang() {
-        robot.delay(30);
-        robot.keyPress(KeyEvent.VK_ALT);
-        robot.keyPress(KeyEvent.VK_SHIFT);
-        robot.delay(200);
-        robot.keyRelease(KeyEvent.VK_ALT);
-        robot.keyRelease(KeyEvent.VK_SHIFT);
-        robot.delay(30);
     }
 
     private void doType(int... keyCodes) {

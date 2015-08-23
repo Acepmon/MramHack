@@ -1,7 +1,6 @@
 package jack;
 
 import com.sun.glass.events.KeyEvent;
-import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,8 +9,6 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +28,7 @@ public class JillBack {
     
     private Robot robot;
     
-    private int out_width = 550;
+    private int out_width = 450;
     private int out_height = 600;
     
     private JFrame frame;
@@ -49,8 +46,8 @@ public class JillBack {
         "Хот, Дүүрэг, П Код",
         "Талбайн Хэмжээ", 
         "Талбайн Нэр", 
-        "Солбиц", 
         "<TAB>", 
+        "Солбиц",
         "<RELOAD>", 
         "<MN>"};
     
@@ -85,12 +82,11 @@ public class JillBack {
                 panel.add(new JLabel(""));
             }
             if (a==10) {
-                panel.add(new JLabel(""));
-                panel.add(new JLabel(""));
-                panel.add(new JLabel(""));
             }
             if (a==11) {
                 backg = new Color(34, 158, 21);
+                panel.add(new JLabel(""));
+                panel.add(new JLabel(""));
             }
             if (a==12) {
                 backg = new Color(0, 0, 0);
@@ -103,83 +99,63 @@ public class JillBack {
         buttons[0].addActionListener((ActionEvent e) -> {
             // Овог
             robot.delay(15);
-            switchingTab("И");
+            switchingTab("Бямбаа");
         });
         buttons[1].addActionListener((ActionEvent e) -> {
             // Нэр
-            robot.delay(5);
-            switchingTab("Бон Сун");
-            robot.delay(5);
+            robot.delay(10);
+            switchingTab("Мөнхбаатар");
+            robot.delay(10);
         });
         buttons[2].addActionListener((ActionEvent e) -> {
             // Тушаал
-            robot.delay(5);
+            robot.delay(10);
             switchingTab("Захирал");
-            robot.delay(5);
+            robot.delay(10);
         });
         buttons[3].addActionListener((ActionEvent e) -> {
             // Хот
-            robot.delay(5);
+            robot.delay(10);
             switchingTab("Өмнөговь");
-            robot.delay(5);
+            robot.delay(10);
         });
         buttons[4].addActionListener((ActionEvent e) -> {
             // Дүүрэг
-            robot.delay(5);
-            switchingTab("Хүрмэн");
-            robot.delay(5);
+            robot.delay(10);
+            switchingTab("Баян-Овоо");
+            robot.delay(10);
         });
         buttons[5].addActionListener((ActionEvent e) -> {
             // Планшетийн код
-            robot.delay(5);
-            switchingTab("К-48-40");
-            robot.delay(5);
+            robot.delay(10);
+            switchingTab("K-48-46");
+            robot.delay(10);
         });
         buttons[7].addActionListener((ActionEvent e) -> {
             // Талбайн хэмжээ
-            robot.delay(5);
-            switchingTab("611.5");
-            robot.delay(5);
+            robot.delay(10);
+            switchingTab("5270");
+            robot.delay(10);
         });
         buttons[8].addActionListener((ActionEvent e) -> {
             // Талбайн нэр
-            robot.delay(5);
-            switchingTab("Хүрмэн");
-            robot.delay(5);
+            robot.delay(10);
+            switchingTab("Улаан уул");
+            robot.delay(10);
         });
-        buttons[9].addActionListener((ActionEvent e) -> {
+        buttons[10].addActionListener((ActionEvent e) -> {
             // Солбиц
-            robot.delay(5);
+            robot.delay(10);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
             String str = "";
-            str = "103";
+            str = "106";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
-            str = "51";
+            str = "30";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
-            str = "50.39";
-            Solbiz(str);
-            doType(KeyEvent.VK_TAB);
-            
-            str = "42";
-            Solbiz(str);
-            doType(KeyEvent.VK_TAB);
-            str = "54";
-            Solbiz(str);
-            doType(KeyEvent.VK_TAB);
-            str = "31.25";
-            Solbiz(str);
-            doType(KeyEvent.VK_TAB);
-            
-            str = "103";
-            Solbiz(str);
-            doType(KeyEvent.VK_TAB);
-            str = "56";
-            Solbiz(str);
-            doType(KeyEvent.VK_TAB);
-            str = "1.11";
+            str = "5";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
             
@@ -189,46 +165,86 @@ public class JillBack {
             str = "55";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
-            str = "40.81";
+            str = "18";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
             
-            str = "103";
+            str = "106";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
-            str = "56";
+            str = "30";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
-            str = "1.11";
+            str = "5";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
             
             str = "42";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
-            str = "54";
+            str = "59";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
-            str = "31.25";
+            str = "42.5";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            
+            str = "106";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            str = "34";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            str = "50";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            
+            str = "42";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            str = "59";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            str = "42.5";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            
+            str = "106";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            str = "34";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            str = "50";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            
+            str = "42";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            str = "55";
+            Solbiz(str);
+            doType(KeyEvent.VK_TAB);
+            str = "18";
             Solbiz(str);
             doType(KeyEvent.VK_TAB);
             
             robot.delay(10);
-            doType(KeyEvent.VK_TAB);
-            doType(KeyEvent.VK_TAB);
-            doType(KeyEvent.VK_TAB);
-            doType(KeyEvent.VK_TAB);
-            doType(KeyEvent.VK_TAB);
-            doType(KeyEvent.VK_TAB);
+//            doType(KeyEvent.VK_TAB);
+//            doType(KeyEvent.VK_TAB);
+//            doType(KeyEvent.VK_TAB);
+//            doType(KeyEvent.VK_TAB);
+//            doType(KeyEvent.VK_TAB);
+//            doType(KeyEvent.VK_TAB);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(15);
         });
-        buttons[10].addActionListener((ActionEvent e) -> {
+        buttons[9].addActionListener((ActionEvent e) -> {
             // Солбиц
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
             doType(KeyEvent.VK_TAB);
-            robot.delay(5);
+            robot.delay(10);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
         });
@@ -240,12 +256,12 @@ public class JillBack {
             System.exit(0);
         });
         buttons[6].addActionListener((ActionEvent e) -> {
-            robot.delay(5);
+            robot.delay(10);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
             String str = "Өмнөговь";
-            String str2 = "Хүрмэн";
-            String str3 = "К-48-40";
+            String str2 = "Баян-Овоо";
+            String str3 = "К-48-46";
             char[] chs = str.toCharArray();
             for (char c : chs) {
                 type(c);
@@ -268,7 +284,7 @@ public class JillBack {
             doType(KeyEvent.VK_TAB);
         });
         buttons[12].addActionListener((ActionEvent e) -> {
-            robot.delay(5);
+            robot.delay(10);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_SHIFT);
