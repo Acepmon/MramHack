@@ -731,7 +731,7 @@ public class Jonathan extends Application {
             robot.delay(10);
             robot.keyPress(KeyEvent.VK_ALT);
             robot.keyPress(KeyEvent.VK_TAB);
-            robot.delay(30);
+            robot.delay(25);
             robot.keyRelease(KeyEvent.VK_TAB);
             robot.keyRelease(KeyEvent.VK_ALT);
             robot.delay(10);
@@ -743,25 +743,25 @@ public class Jonathan extends Application {
 
     private void typeText(String text) {
         removeExistingText();
-        robot.delay(10);
+        robot.delay(3);
         char[] ch = text.toCharArray();
         for (char c : ch) {
             type(c);
         }
-        robot.delay(10);
+        robot.delay(3);
     }
     
     private void removeExistingText() {
-        robot.delay(5);
+        robot.delay(3);
         robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_A);
-        robot.delay(20);
+        robot.delay(10);
         robot.keyRelease(KeyEvent.VK_A);
         robot.keyRelease(KeyEvent.VK_CONTROL);
-        robot.delay(20);
+        robot.delay(10);
         robot.keyPress(KeyEvent.VK_BACK_SPACE);
         robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-        robot.delay(5);
+        robot.delay(3);
     }
     
     private void executeTab() {

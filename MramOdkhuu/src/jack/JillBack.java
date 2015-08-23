@@ -103,49 +103,49 @@ public class JillBack {
         });
         buttons[1].addActionListener((ActionEvent e) -> {
             // Нэр
-            robot.delay(10);
+            robot.delay(5);
             switchingTab("Мөнхбаатар");
-            robot.delay(10);
+            robot.delay(5);
         });
         buttons[2].addActionListener((ActionEvent e) -> {
             // Тушаал
-            robot.delay(10);
+            robot.delay(5);
             switchingTab("Захирал");
-            robot.delay(10);
+            robot.delay(5);
         });
         buttons[3].addActionListener((ActionEvent e) -> {
             // Хот
-            robot.delay(10);
+            robot.delay(5);
             switchingTab("Өмнөговь");
-            robot.delay(10);
+            robot.delay(5);
         });
         buttons[4].addActionListener((ActionEvent e) -> {
             // Дүүрэг
-            robot.delay(10);
+            robot.delay(5);
             switchingTab("Баян-Овоо");
-            robot.delay(10);
+            robot.delay(5);
         });
         buttons[5].addActionListener((ActionEvent e) -> {
             // Планшетийн код
-            robot.delay(10);
-            switchingTab("K-48-46");
-            robot.delay(10);
+            robot.delay(5);
+            switchingTab("К-48-46");
+            robot.delay(5);
         });
         buttons[7].addActionListener((ActionEvent e) -> {
             // Талбайн хэмжээ
-            robot.delay(10);
+            robot.delay(5);
             switchingTab("5270");
-            robot.delay(10);
+            robot.delay(5);
         });
         buttons[8].addActionListener((ActionEvent e) -> {
             // Талбайн нэр
-            robot.delay(10);
+            robot.delay(5);
             switchingTab("Улаан уул");
-            robot.delay(10);
+            robot.delay(5);
         });
         buttons[10].addActionListener((ActionEvent e) -> {
             // Солбиц
-            robot.delay(10);
+            robot.delay(5);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
             String str = "";
@@ -244,19 +244,19 @@ public class JillBack {
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
             doType(KeyEvent.VK_TAB);
-            robot.delay(10);
+            robot.delay(5);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
         });
         buttons[11].addActionListener((ActionEvent e) -> {
             try {
-                Runtime.getRuntime().exec("java -jar Jack.jar");
+                Runtime.getRuntime().exec("java -jar MonkhooAkh.jar");
             } catch (IOException ex) {
             }
             System.exit(0);
         });
         buttons[6].addActionListener((ActionEvent e) -> {
-            robot.delay(10);
+            robot.delay(5);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
             String str = "Өмнөговь";
@@ -284,7 +284,7 @@ public class JillBack {
             doType(KeyEvent.VK_TAB);
         });
         buttons[12].addActionListener((ActionEvent e) -> {
-            robot.delay(10);
+            robot.delay(5);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_TAB);
             robot.delay(20);
             doType(KeyEvent.VK_ALT, KeyEvent.VK_SHIFT);
